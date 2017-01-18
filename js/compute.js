@@ -93,10 +93,10 @@ $(function() { //shorthand document.ready function
             xw*-0.07*x5+ //minus wind boost
             xe*0.1*x5+ //plus wind boost
                 // club weight gives you a random multiplier on strength
-            x2*(getRandomArbitrary(.1,.25)*3.55*x7*x6) +
-              x3*(getRandomArbitrary(.25,.4)*3.55*x7*x6) +
-                x4*(getRandomArbitrary(.35,.45)*3.55*x7*x6) +
-                .21*x7*x7 + 2.32*x7 + 1.91*x5 - x5*x5*.022 + 1.65*(x7-5)
+            x2*(getRandomArbitrary(.15,.2)*3.65*x7*Math.pow(x5,.5)) +
+              x3*(getRandomArbitrary(.2,.35)*3.65*x7*Math.pow(x5,.5)) +
+                x4*(getRandomArbitrary(.35,.45)*3.65*x7*Math.pow(x5,.5)) +
+                .28*x7*x7 + 2.2*x6 + .7*x7*x6 + 2.25*x5 - x5*x5*.033 + 2.85*(x7-5)
             ;
         distance = Math.max(distance, getRandomArbitrary(.2,2));
         distance = Math.round (distance*100) / 100;
