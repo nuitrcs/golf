@@ -98,10 +98,14 @@ $(function() { //shorthand document.ready function
                 x4*(getRandomArbitrary(.35,.45)*3.65*x7*Math.pow(x5,.5)) +
                 .28*x7*x7 + 2.2*x6 + .7*x7*x6 + 2.25*x5 - x5*x5*.033 + 2.85*(x7-5)
             ;
-        distance = Math.max(distance, getRandomArbitrary(.2,2));
+        distance = Math.max(distance, getRandomArbitrary(.2,2)); // correct for negative distance
+        //introduce daily variation
+
+        //add possibility of a flubbed shot
+
         distance = Math.round (distance*100) / 100;
         $('#output').html('<p>The ball went '+distance.toString()+' yards.</p>');
-        $('#results > tbody:last-child').append("<tr><td>"+
+        $('#results > tbody:last-child').append("<tr><td>"+Date.today().toISOString ( )+"</td><td>"+
             values['direction']+"</td><td>"+values['weight']+"</td><td>"+
             values['angle']+"</td><td>"+values['length']+"</td><td>"+distance.toString()+"</td></tr>");
     });
