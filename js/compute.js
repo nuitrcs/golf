@@ -90,7 +90,7 @@ $(function() { //shorthand document.ready function
         }
         var x5 = parseFloat(values['angle']);
         var x6 = parseFloat(values['length'])-33;
-        var x7 = parseFloat(values['strength']);
+        var x7 = Math.pow(parseFloat(values['strength']),2.5)/31.6;
         var distance = getRandomArbitrary(0,3.5)+ //overall randomness
                 //random boost or penalty by direction
             xs*getRandomArbitrary(0,3)+
@@ -101,13 +101,13 @@ $(function() { //shorthand document.ready function
             x2*(getRandomArbitrary(.15,.2)*3.65*x7*Math.pow(x5,.5)) +
               x3*(getRandomArbitrary(.2,.35)*3.65*x7*Math.pow(x5,.5)) +
                 x4*(getRandomArbitrary(.35,.45)*3.65*x7*Math.pow(x5,.5)) +
-                .28*x7*x7 + 2.2*x6 + .7*x7*x6 + 2.25*x5 - x5*x5*.033 + 2.85*(x7-5)
+                .5*x7*x7 + .2*x6 + .7*x7*x6 + 1.925*x5 - x5*x5*.023 + 2.85*(x7-5)
             ;
         distance = Math.max(distance, getRandomArbitrary(.2,2)); // correct for negative distance
         var mydate = Date.today();
         //introduce daily variation
         distance = distance * 0.85 * (1.1 + 0.01*randn_bm() * .8*((mydate.getDay() % 5) + 1)); // more variation on some days than others
-        distance = distance + 0.01*(mydate.getDay() % 3);// some days get a pure distance boost
+        distance = distance + distance * 0.01*(mydate.getDay() % 3);// some days get a pure distance boost
 
         //add possibility of a flubbed shot
         if (Math.random() < .02) {
@@ -119,9 +119,9 @@ $(function() { //shorthand document.ready function
         distance = Math.round (distance*100) / 100;
 
         //reset sliders
-        $("#length").slider('setValue', 34);
-        $('#angle').slider('setValue', 0);
-        $("#strength").slider('setValue', 1);
+        //$("#length").slider('setValue', 34);
+        //$('#angle').slider('setValue', 0);
+        //$("#strength").slider('setValue', 1);
 
 
         $('#output').html('<p>The ball went '+distance.toString()+' yards.</p>');
