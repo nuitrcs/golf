@@ -8,15 +8,32 @@ function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
 }
 
+// Standard Normal variate using Box-Muller transform.
+function randn_bm() {
+    var u = 1 - Math.random(); // Subtraction to flip [0, 1) to (0, 1].
+    var v = 1 - Math.random();
+    return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+}
+
+
+
+
 $(function() { //shorthand document.ready function
+    // Instantiate a slider
+    $("#length").slider('setValue', 34);
+    $('#angle').slider('setValue', 0);
+    $("#strength").slider('setValue', 1);
+
     $('#inputs').on('submit', function(e) { //use on if jQuery 1.7+
         e.preventDefault();  //prevent form from submitting
         var values = {};
         $.each($('#inputs').serializeArray(), function(i, field) {
             values[field.name] = field.value;
         });
-        var data = $("#inputs :input").serialize();
-        console.log(data);
+        values['length'] = $("#length").slider('getValue');
+        values['strength'] = $("#strength").slider('getValue');
+        values['angle'] = $("#angle").slider('getValue');
+        console.log(values);
 
         // check for undefined fields (from older browsers)
         if (!('direction' in values) || values['direction'] == '') {
@@ -25,18 +42,6 @@ $(function() { //shorthand document.ready function
         }
         if (!('weight' in values) || values['weight'] == '') {
             alert('Must choose a club weight');
-            return;
-        }
-        if (!('angle' in values) || values['angle'] == '') {
-            alert('Must enter a launch angle');
-            return;
-        }
-        if (!('length' in values) || values['length'] == '') {
-            alert('Must enter a club length');
-            return;
-        }
-        if (!('strength' in values) || values['strength'] == '') {
-            alert('Must enter a swing strength');
             return;
         }
 
@@ -99,14 +104,29 @@ $(function() { //shorthand document.ready function
                 .28*x7*x7 + 2.2*x6 + .7*x7*x6 + 2.25*x5 - x5*x5*.033 + 2.85*(x7-5)
             ;
         distance = Math.max(distance, getRandomArbitrary(.2,2)); // correct for negative distance
+        var mydate = Date.today();
         //introduce daily variation
+        distance = distance * 0.85 * (1.1 + 0.01*randn_bm() * .8*((mydate.getDay() % 5) + 1)); // more variation on some days than others
+        distance = distance + 0.01*(mydate.getDay() % 3);// some days get a pure distance boost
 
         //add possibility of a flubbed shot
+        if (Math.random() < .02) {
+            distance = distance * getRandomArbitrary(0.08,.4);
+        } else if (Math.random() < .01) {
+            distance = getRandomArbitrary(0,5);
+        }
 
         distance = Math.round (distance*100) / 100;
+
+        //reset sliders
+        $("#length").slider('setValue', 34);
+        $('#angle').slider('setValue', 0);
+        $("#strength").slider('setValue', 1);
+
+
         $('#output').html('<p>The ball went '+distance.toString()+' yards.</p>');
-        $('#results > tbody:last-child').append("<tr><td>"+Date.today().toISOString ( )+"</td><td>"+
-            values['direction']+"</td><td>"+values['weight']+"</td><td>"+
-            values['angle']+"</td><td>"+values['length']+"</td><td>"+distance.toString()+"</td></tr>");
+        $('#results > tbody:last-child').append("<tr><td>"+mydate.toString('yyyy-MM-dd')+"</td><td>"+
+            values['direction']+"</td><td>"+values['weight']+"</td><td>"+values['length']+"</td><td>"+
+            values['strength']+"</td><td>"+values['angle']+"</td><td>"+distance.toString()+"</td></tr>");
     });
 });

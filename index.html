@@ -26,7 +26,9 @@
     <script src="assets/js/ie-emulation-modes-warning.js"></script>
     <link rel="stylesheet" href="css/custom.css">
     <script src="js/clipboard.min.js"></script>
-    <script src="js/date.js"></script>
+    <script src="js/date.min.js"></script>
+
+    <link rel="stylesheet" href="css/bootstrap-slider.min.css">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -46,7 +48,8 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron" style='background-image: url("images/golf.jpg");  background-position: center; background-size: 100%;'>
         <h1 class="white">Let's Golf!</h1>
-        <p class="white">Change the inputs below, then click SWING to see how far the ball goes. <em>Javascript required.</em></p>
+        <p class="white">Change the inputs below, then click SWING to see how far the ball goes.
+          </p>
       </div>
 
 
@@ -115,29 +118,47 @@
             <div class="form-group col-md-4">
 
               <label for="length" class="col-md-12">Club Length</label>
-              <div class="col-md-8">
-                <input type="number" min="34" max="48" step="any" class="form-control" id="length" name="length" required>
-              </div><div class="col-md-12">
-              <small id="lengthHelp" class="form-text text-muted">In inches, 34"-48"</small>
+
+              <div class="col-md-12">34&nbsp;&nbsp;&nbsp;<input id="length"
+                       data-provide="slider"
+                       data-slider-tooltip="hide"
+                       data-slider-id='lengthSlider'
+                       type="text"
+                       data-slider-min="34" data-slider-max="48" data-slider-step="0.1">&nbsp;&nbsp;&nbsp;48</div>
+                <!--<input type="number" min="34" max="48" step="any" class="form-control" id="length" name="length" required>-->
+              <div class="col-md-12">
+              <small id="lengthHelp" class="form-text text-muted">In inches</small>
             </div>
             </div>
                   <div class="form-group col-md-4">
 
                       <label for="length" class="col-md-12">Swing Strength</label>
-                      <div class="col-md-8">
-                          <input type="number" min="1" max="10" step="any" class="form-control" id="strength" name="strength" required>
-                      </div><div class="col-md-12">
-                      <small id="lengthHelp" class="form-text text-muted">1 = a light tap<br>10 = Tiger Woods drive</small>
+
+                    <div class="col-md-12">1&nbsp;&nbsp;&nbsp;<input id="strength"
+                               data-provide="slider"
+                               data-slider-tooltip="hide"
+                               data-slider-id='strengthSlider'
+                               type="text"
+                               data-slider-min="1" data-slider-max="10" data-slider-step="0.05" />&nbsp;&nbsp;&nbsp;10</div>
+                          <!--<input type="number" min="1" max="10" step="any" class="form-control" id="strength" name="strength" required>-->
+                      <div class="col-md-12">
+                      <small id="lengthHelp" class="form-text text-muted">1 = a light tap; 10 = Tiger Woods drive</small>
                   </div>
                   </div>
 
                   <div class="form-group col-md-4">
 
                       <label for="angle" class="col-md-12">Launch Angle</label>
-                      <div class="col-md-8">
-                          <input type="number" min="0" max="70" step="any" class="form-control" id="angle" name="angle" required>
-                      </div><div class="col-md-12">
-                      <small id="angleHelp" class="form-text text-muted">Angle at which the ball leaves the tee, relative to the ground.  0-70 degrees</small>
+                  <div class="col-md-12">0&nbsp;&nbsp;&nbsp;
+                        <input id="angle"
+                               data-provide="slider"
+                               data-slider-tooltip="hide"
+                               data-slider-id='angleSlider'
+                               type="text"
+                               data-slider-min="0" data-slider-max="70" data-slider-step="0.5" />&nbsp;&nbsp;&nbsp;70</div>
+                          <!--<input type="number" min="0" max="70" step="any" class="form-control" id="angle" name="angle" required>-->
+                   <div class="col-md-12">
+                      <small id="angleHelp" class="form-text text-muted">Angle in degrees at which the ball leaves the tee, relative to the ground. </small>
                   </div>
                   </div>
 
@@ -167,18 +188,19 @@
         <div class="col-md-12" id="data">
         <table id="results" class="table">
           <thead class="thead-default">
-          <tr><th>Date</th><th>Direction</th><th>Weight</th><th>Angle</th><th>Club Length</th><th>Distance</th></tr>
+          <tr><th>Date</th><th>Direction</th><th>Weight</th><th>Club Length</th><th>Strength</th><th>Angle</th><th>Distance</th></tr>
           </thead>
           <tbody></tbody></table>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <button class="btn btn-default" type="submit" id="copybtn" data-clipboard-target="#results">Copy Results to Clipboard</button><br>
-          <small id="copyhelp" class="form-text text-muted">This button will copy the results table as tab-delimited data to your clipboard; you can then paste it in another program, such as Excel.</small>
+          <small id="copyhelp" class="form-text text-muted">This button will copy the results table as tab-delimited data to your clipboard; you can then paste it in another program.  To paste into Excel, you may need to adjust options in the Text to Columns function under the Data menu.</small>
         </div>
       </div>
 
+      <div class="row"><hr><div class="col-md-12"><small><em>Javascript must be enabled in your browser for the page to work.</em></small></div></div>
 
     </div> <!-- /container -->
 
@@ -190,8 +212,9 @@
     <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="dist/js/bootstrap.min.js"></script>
     <script src="assets/js/docs.min.js"></script>
-
+    <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/compute.min.js"></script>
+
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
