@@ -15,8 +15,21 @@ function randn_bm() {
     return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
 }
 
-
-
+// function sleep(milliseconds) {
+//     var start = new Date().getTime();
+//     for (var i = 0; i < 1e7; i++) {
+//         if ((new Date().getTime() - start) > milliseconds){
+//             break;
+//         }
+//     }
+// }
+//
+// var clearit;
+//
+// function clearbar() {
+//     clearit = setTimeout(function(){ $('#distancebar').css('width', '0%').attr('aria-valuenow', 0);
+//         $('#output').html(''); }, 5000);
+// }
 
 $(function() { //shorthand document.ready function
     // Instantiate a slider
@@ -26,6 +39,7 @@ $(function() { //shorthand document.ready function
 
     $('#inputs').on('submit', function(e) { //use on if jQuery 1.7+
         e.preventDefault();  //prevent form from submitting
+        //$('#output').html('');
         var values = {};
         $.each($('#inputs').serializeArray(), function(i, field) {
             values[field.name] = field.value;
@@ -119,12 +133,30 @@ $(function() { //shorthand document.ready function
         distance = Math.round (distance*100) / 100;
 
         //reset sliders
-        //$("#length").slider('setValue', 34);
-        //$('#angle').slider('setValue', 0);
-        //$("#strength").slider('setValue', 1);
+        $("#length").slider('setValue', 34);
+        $('#angle').slider('setValue', 0);
+        $("#strength").slider('setValue', 1);
+
+        //clearTimeout(clearit);
+        //$('#distancebar').css('width', '0%').attr('aria-valuenow', 0);
+        //$('#output').html('');
+        // setTimeout(function(){
+        //     var flight = 0;
+        //     var id = setInterval(frame, 10);
+        //     function frame() {
+        //         if (flight > distance) {
+        //             clearInterval(id);
+        //         } else {
+        //             $('#distancebar').css('width', 100*flight/350.0+'%').attr('aria-valuenow', 100*flight/350.0);
+        //             flight++;
+        //         }
+        //     }}, 30);
 
 
-        $('#output').html('<p>The ball went '+distance.toString()+' yards.</p>');
+        //clearbar();
+
+
+        $('#output').html('<h3>'+distance.toString()+' yards</h3>');
         $('#results > tbody:last-child').append("<tr><td>"+mydate.toString('yyyy-MM-dd')+"</td><td>"+
             values['direction']+"</td><td>"+values['weight']+"</td><td>"+values['length']+"</td><td>"+
             values['strength']+"</td><td>"+values['angle']+"</td><td>"+distance.toString()+"</td></tr>");
